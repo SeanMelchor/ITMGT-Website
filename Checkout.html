@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background"></div> <!-- Background image or color -->
+
+    <header class="transparent-header">
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Products.html">Products</a></li>
+                <li><a href="Cart.html">Cart</a></li>
+                <li><a href="About Us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <div class="cart-summary">
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+        </div>
+
+        <form id="checkout-form" class="checkout-form">
+            <h3>Billing Information</h3>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="address">Shipping Address:</label>
+            <textarea id="address" placeholder="Enter your shipping address" required></textarea>
+
+            <label for="card">Credit Card Information:</label>
+            <input type="text" id="card" placeholder="Card Number" required>
+
+            <label for="expiry">Expiry Date:</label>
+            <input type="text" id="expiry" placeholder="MM/YY" required>
+
+            <button type="submit" class="checkout-btn">Confirm Purchase</button>
+        </form>
+    </div>
+
+    <script>
+   
+        function displayCartItems() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty!</p>';
+                cartTotal.textContent = '';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>Price: $${item.price}</p>
+                    <p>Quantity: ${item.quantity}</p>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+
+    
+                totalPrice += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = `Total: $${totalPrice.toFixed(2)}`;
+        }
+
+        displayCartItems();
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'Confirmation.html'; 
+        });
+    </script>
+</body>
+</html>
