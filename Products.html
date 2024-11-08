@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rookie Chef</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="transparent-header">
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Products.html">Products</a></li>
+                <li><a href="Cart.html">Cart</a></li>
+                <li><a href="About Us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="background1"></div>
+
+    <main class="products-container">
+        <div class="product reverse" data-id="1" data-name="Cookie" data-price="2.50">
+            <div class="product-image">
+                <img src="bread.png" alt="Product 1 Image">
+            </div>
+            <div class="product-details">
+                <h2>Bread</h2>
+                <p>Description of the first product. It's great and here's why...</p>
+                <p class="price">$29.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product reverse" data-id="2" data-name="Chocolate" data-price="3.00">
+            <div class="product-image">
+                <img src="cake.png" alt="Product 2 Image">
+            </div>
+            <div class="product-details">
+                <h2>Chocolate</h2>
+                <p>Description of the second product. It's unique and here's why...</p>
+                <p class="price">$49.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product reverse" data-id="3" data-name="Pastry" data-price="3.00">
+            <div class="product-image">
+                <img src="pastry.png" alt="Product 3 Image">
+            </div>
+            <div class="product-details">
+                <h2>Pastry</h2>
+                <p>Description of the third product. Here's why it's special...</p>
+                <p class="price">$39.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const productElement = this.closest('.product');
+        const productId = productElement.getAttribute('data-id');
+        const productName = productElement.getAttribute('data-name');
+        const productPrice = productElement.getAttribute('data-price');
+
+        const product = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            quantity: 1
+        };
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const existingProduct = cart.find(item => item.id === productId);
+        if (existingProduct) {
+
+            existingProduct.quantity += 1;
+        } else {
+
+            cart.push(product);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        alert(`${productName} has been added to your cart!`);
+    });
+});
+    </script>
+</body>
+</html>
